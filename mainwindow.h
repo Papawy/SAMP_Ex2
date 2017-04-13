@@ -7,16 +7,21 @@ namespace Ui {
 class MainWindow;
 }
 
-class MainWindow : public QMainWindow
+namespace SAMP_Ex2
 {
-	Q_OBJECT
 
-public:
-	explicit MainWindow(QWidget *parent = 0);
-	~MainWindow();
+	class MainWindow : public QMainWindow
+	{
+		Q_OBJECT
 
-private:
-	Ui::MainWindow *ui;
-};
+	public:
+		explicit MainWindow(QWidget *parent = 0);
+		~MainWindow();
+
+	private:
+		Ui::MainWindow *ui;
+	};
+}
+
 
 #endif // MAINWINDOW_H

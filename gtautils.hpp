@@ -14,7 +14,7 @@ namespace SAMP_Ex2
 
 		bool ConnectClientTo(); // TODO
 
-		bool LaunchGTAInjected(QHostAddress ip, quint16 port, std::string nickname, std::string password = "", bool debug = false, string sampdll = "\\samp.dll");
+		bool LaunchGTAInjected(QHostAddress ip, quint16 port, std::string nickname, std::string password = "", bool debug = false, std::string sampdll = "\\samp.dll");
 	}
 }
 
