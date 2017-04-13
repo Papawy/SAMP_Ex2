@@ -2,28 +2,48 @@
 
 #include <exception>
 #include <sstream>
+#include <iostream>
 
 #include <Windows.h>
 #include <WinBase.h>
 
+#include <QSettings>
+#include <QDir>
+
 namespace SAMP_Ex2
 {
-	std::string GTAUtils::GetGTADir()
+	QString GTAUtils::GetGTADir()
 	{
-		HKEY key;
+		/*HKEY key;
 		if(RegOpenKey(HKEY_CURRENT_USER, TEXT("SOFTWARE\\SAMP\\"), &key) != ERROR_SUCCESS)
 		{
 			throw std::exception("Could not open SAMP registry key !");
 		}
 
-		char gtaDir[512];
-		DWORD gtaDirLength = 512;
-		RegQueryValueEx(key, TEXT("gta_sa_exe"), NULL, NULL, (LPBYTE)&gtaDir, &gtaDirLength);
+		char gtaExeDir[512];
+		DWORD gtaExeDirLength = 512;
+		RegQueryValueEx(key, TEXT("gta_sa_exe"), NULL, NULL, (LPBYTE)&gtaExeDir, &gtaExeDirLength);
 		RegCloseKey(key);
-		return std::string(gtaDir);
+		QDir gtaDir = QDir(gtaExeDir);
+		QString gtaDirStr = gtaDir.absolutePath();
+		std::cout << gtaExeDir;*/
+
+		QString gtaDirStr;
+
+		try
+		{
+			QSettings sampKey("HKEY_CURRENT_USER\\SOFTWARE\\SAMP", QSettings::NativeFormat);
+			gtaDirStr = sampKey.value("gta_sa_exe").toString();
+		}
+		catch(std::exception e)
+		{
+			gtaDirStr = "";
+		}
+
+		return QDir::toNativeSeparators(QFileInfo(gtaDirStr).absoluteDir().absolutePath());
 	}
 
-	void GTAUtils::SetGTADir(std::string dir)
+	void GTAUtils::SetGTADir(QString dir)
 	{
 		HKEY key;
 		if(RegOpenKey(HKEY_CURRENT_USER, TEXT("SOFTWARE\\SAMP\\"), &key) != ERROR_SUCCESS)
@@ -31,7 +51,7 @@ namespace SAMP_Ex2
 			throw std::exception("Could not open SAMP registry key !");
 		}
 
-		if(RegSetValueEx(key, TEXT("gta_sa_exe"), 0, REG_SZ, (LPBYTE)dir.c_str(), strlen(dir.c_str())*sizeof(char)) != ERROR_SUCCESS)
+		if(RegSetValueEx(key, TEXT("gta_sa_exe"), 0, REG_SZ, (LPBYTE)dir.toStdString().c_str(), strlen(dir.toStdString().c_str())*sizeof(char)) != ERROR_SUCCESS)
 		{
 			RegCloseKey(key);
 			throw std::exception("Could not write in SAMP registry key !");
@@ -40,12 +60,12 @@ namespace SAMP_Ex2
 		RegCloseKey(key);
 	}
 
-	bool GTAUtils::LaunchGTAInjected(QHostAddress ip, quint16 port, std::string nickname, std::string password, bool debug, std::string sampdll)
+	bool GTAUtils::LaunchGTAInjected(QHostAddress ip, quint16 port, QString nickname, QString password, bool debug, QString sampdll)
 	{
-		std::string gtaPath = "M:\\Games\\Rockstar Games\\GTA San Andreas"; /* ConfigFile.GetUserConfig("gtapath") + */
-		std::string gtaExeLocation = gtaPath + "\\gta_sa.exe";
+		QString gtaPath /*= "M:\\Games\\Rockstar Games\\GTA San Andreas\\gta_sa.exe"*/; /* ConfigFile.GetUserConfig("gtapath") + */
+		QString gtaExeLocation = gtaPath;
 
-		std::string gtaDir;
+		QString gtaDir;
 		try
 		{
 			gtaDir = GetGTADir();
@@ -55,64 +75,57 @@ namespace SAMP_Ex2
 			return false;
 		}
 
-		/* if(ConfigFile.GetUserConfig("gtapath").length() == 0)
-		 *		gtaExeLocation = gtaDir + "\\gta_sa.exe";
-		 */
+		if(/*ConfigFile.GetUserConfig("gtapath").length() == 0 ||*/ gtaPath.length() == 0)
+			gtaExeLocation = gtaDir + "\\gta_sa.exe";
 
-		std::string gtaExeArgs;
+		QString gtaExeArgs /*= "\"" + gtaExeLocation + "\" "*/;
 
 		PROCESS_INFORMATION ProcessInfo;
-		LPSTARTUPINFOA StartupInfo;
+		ZeroMemory( &ProcessInfo, sizeof(ProcessInfo) );
 
+		STARTUPINFO StartupInfo;
+		ZeroMemory( &StartupInfo, sizeof(StartupInfo) );
+		StartupInfo.cb = sizeof(StartupInfo);
 
-
-		std::stringstream ss;
 		if (debug == false)
-			ss << "-c -h " << ip.toString().toStdString() << " -p " << port << " -n " << nickname;
+			gtaExeArgs += "-c -h " + ip.toString() + " -p " + port + " -n " + nickname;
 		else
-			ss << "-d -h " << ip.toString().toStdString() << " -p " << port << " -n " << nickname;
+			gtaExeArgs += "-d -h " + ip.toString() + " -p " + port + " -n " + nickname;
 
 		if(password.length() != 0)
-			ss << " -z " << password;
+			gtaExeArgs += " -z " + password;
 
-		gtaExeArgs = ss.str();
-
-		LPSTR cString = strdup(gtaExeArgs.c_str());
-		if(CreateProcessA(gtaExeLocation.c_str(), cString, NULL, NULL, false, DETACHED_PROCESS | CREATE_SUSPENDED, NULL, gtaDir.c_str(), StartupInfo, &ProcessInfo))
+		if(CreateProcess((LPCWSTR)gtaExeLocation.utf16(), (LPTSTR)gtaExeArgs.utf16(), NULL, NULL, false, DETACHED_PROCESS | CREATE_SUSPENDED, NULL, (LPCTSTR)gtaDir.utf16(), &StartupInfo, &ProcessInfo))
 		{
-			SIZE_T * bWritten;
-			LPDWORD hThread;
+			QString DLLName = gtaDir + sampdll;
 
-			ss.str("");
-			ss.clear();
-			ss << gtaDir << sampdll;
-			std::string DLLName = ss.str();
-
-			HMODULE hKernel = LoadLibraryA("kernel32.dll");
-			FARPROC LoadLib = GetProcAddress(hKernel, "LoadLibraryA");
-			FreeLibrary(hKernel);
+			HMODULE hKernel = GetModuleHandle(L"kernel32.dll");
+			LPVOID LoadLib = GetProcAddress(hKernel, "LoadLibraryA");
 
 			if(LoadLib == NULL)
 				return false;
 
-			HANDLE ProcHandle = ProcessInfo.hProcess;
-			if(ProcHandle == NULL)
+			if(ProcessInfo.hProcess == NULL)
 				return false;
 
-			LPVOID arg = VirtualAllocEx(ProcHandle, NULL, DLLName.length(), 0x1000 | 0x2000, 0x04);
+			char * dllName = strdup(DLLName.toStdString().c_str());
+			LPVOID arg = VirtualAllocEx(ProcessInfo.hProcess, NULL, strlen(dllName), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
 			if(arg == NULL)
 				return false;
 
-			bool WPM = WriteProcessMemory(ProcHandle, arg, DLLName.c_str(), DLLName.length(), bWritten);
+			SIZE_T bWritten;
+			bool WPM = WriteProcessMemory(ProcessInfo.hProcess, arg, dllName, strlen(dllName), &bWritten);
 			if(WPM == NULL)
 				return false;
 
-			HANDLE hThr = CreateRemoteThread(ProcHandle, NULL, 0, (LPTHREAD_START_ROUTINE)LoadLib, arg, CREATE_SUSPENDED, hThread);
+
+			HANDLE hThr = CreateRemoteThread(ProcessInfo.hProcess, NULL, 0, (LPTHREAD_START_ROUTINE)LoadLib, arg, CREATE_SUSPENDED, NULL);
 			if(hThr == NULL)
 				return false;
 
+
 			ResumeThread(hThr);
-			WaitForSingleObject(hThr, (int)INFINITY);
+			WaitForSingleObject(hThr, INFINITE);
 			VirtualFreeEx(ProcessInfo.hProcess, arg, NULL, MEM_RELEASE);
 			ResumeThread(ProcessInfo.hThread);
 			CloseHandle(ProcessInfo.hProcess);
