@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/add.png</file>
+        <file>icons/download-1.png</file>
+        <file>icons/exit-1.png</file>
+        <file>icons/folder-10.png</file>
+        <file>icons/garbage-2.png</file>
+        <file>icons/GTA-Logo.ico</file>
+        <file>icons/home.png</file>
+        <file>icons/locked.png</file>
+        <file>icons/locked_colour.png</file>
+        <file>icons/logo.gif</file>
+        <file>icons/play-button.png</file>
+        <file>icons/reload.png</file>
+        <file>icons/settings-6.png</file>
+        <file>icons/unlocked_colour.png</file>
+        <file>icons/upload-1.png</file>
+        <file>icons/edit.png</file>
+        <file>icons/copy.png</file>
+        <file>icons/magnifying-glass.png</file>
+    </qresource>
+</RCC>
