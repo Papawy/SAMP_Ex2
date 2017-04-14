@@ -6,6 +6,7 @@
 
 QT       += core gui
 QT += network
+QT += xml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -30,10 +31,12 @@ win32:LIBS += -lAdvapi32
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    gtautils.cpp
+    gtautils.cpp \
+    configfile.cpp
 
 HEADERS  += mainwindow.h \
-    gtautils.hpp
+    gtautils.hpp \
+    configfile.h
 
 FORMS    += mainwindow.ui
 

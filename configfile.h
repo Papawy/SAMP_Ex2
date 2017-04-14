@@ -9,13 +9,21 @@
 #include <QMessageBox>
 #include <QDomDocument>
 
-
-class ConfigFile
+namespace SAMP_Ex2
 {
-public:
-    ConfigFile();
-    _ConfigFile();
-    QString GetConfValue(QString conftype, QString confname);
-};
+	class ConfigFile
+	{
+	public:
+		ConfigFile();
+		_ConfigFile();
+		static bool Load(QString filePath);
+		static QString GetConfValue(QString conftype, QString confname);
+
+	protected:
+		bool m_loaded;
+		QString m_filePath;
+	};
+}
+
 
 #endif // CONFIGFILE_H

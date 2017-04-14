@@ -62,8 +62,8 @@ namespace SAMP_Ex2
 
 	bool GTAUtils::LaunchGTAInjected(QHostAddress ip, quint16 port, QString nickname, QString password, bool debug, QString sampdll)
 	{
-		QString gtaPath /*= "M:\\Games\\Rockstar Games\\GTA San Andreas\\gta_sa.exe"*/; /* ConfigFile.GetUserConfig("gtapath") + */
-		QString gtaExeLocation = gtaPath;
+		QString gtaPath = ConfigFile.GetUserConfig("gtapath");
+		QString gtaExeLocation = gtaPath + "\\gta_sa.exe";
 
 		QString gtaDir;
 		try
@@ -75,7 +75,7 @@ namespace SAMP_Ex2
 			return false;
 		}
 
-		if(/*ConfigFile.GetUserConfig("gtapath").length() == 0 ||*/ gtaPath.length() == 0)
+		if(gtaPath.length() == 0)
 			gtaExeLocation = gtaDir + "\\gta_sa.exe";
 
 		QString gtaExeArgs /*= "\"" + gtaExeLocation + "\" "*/;
