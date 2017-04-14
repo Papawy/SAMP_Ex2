@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<!--Launcher configuration file-->
+<configuration>
+  <user>
+    <defaultnick>Papanon</defaultnick>
+    <gtapath>M:\Games\Rockstar Games\GTA San Andreas</gtapath>
+  </user>
+  <sampdll>
+  	<v0.3.7-R2>samp037</v0.3.7-R2>
+  	<v0.3.7>samp037</v0.3.7>
+  	<v0.3z-R2>samp03zr2</v0.3z-R2>
+  	<v0.3z-R1>samp03zr1</v0.3z-R1>
+  	<v0.3z>samp03zr1</v0.3z>
+  	<v0.3z>samp03zr1</v0.3z>
+  	<v0.3x-R2>samp03xr2</v0.3x-R2>
+  	<v0.3x-R1-2>samp03xr1</v0.3x-R1-2>
+  	<v0.3x-R1>samp03xr1</v0.3x-R1>
+  	<v0.3x>samp03xr1</v0.3x>
+  	<v0.3e>samp03e</v0.3e>
+  	<v0.3d-R2>samp03dr2</v0.3d-R2>
+  	<v0.3d>samp03dr2</v0.3d>
+  	<v0.3c-R3>samp03cr3</v0.3c-R3>
+  </sampdll>
+</configuration>
