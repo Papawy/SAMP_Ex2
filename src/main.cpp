@@ -1,7 +1,7 @@
-#include "mainwindow.h"
+#include "../headers/mainwindow.h"
 #include <QApplication>
 
-#include "gtautils.hpp"
+#include "../headers/gtautils.hpp"
 
 int main(int argc, char *argv[])
 {

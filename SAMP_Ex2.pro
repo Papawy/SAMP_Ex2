@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT += core gui
 QT += network
 QT += xml
 
@@ -29,16 +29,16 @@ DEFINES += UNICODE
 win32:LIBS += -lKernel32
 win32:LIBS += -lAdvapi32
 
-SOURCES += main.cpp\
-        mainwindow.cpp \
-    gtautils.cpp \
-    configfile.cpp
+SOURCES += src/main.cpp \
+        src/mainwindow.cpp \
+    src/gtautils.cpp \
+    src/configfile.cpp
 
-HEADERS  += mainwindow.h \
-    gtautils.hpp \
-    configfile.h
+HEADERS  += headers/mainwindow.h \
+    headers/gtautils.hpp \
+    headers/configfile.h
 
-FORMS    += mainwindow.ui
+FORMS    += ui/mainwindow.ui
 
 RESOURCES += \
-    iconsrsc.qrc
+    rsc/iconsrsc.qrc
