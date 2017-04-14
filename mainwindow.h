@@ -2,6 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QLineEdit>
+#include <QLabel>
+#include <QCheckBox>
+#include <QLayout>
 
 namespace Ui {
 class MainWindow;
@@ -20,6 +24,10 @@ namespace SAMP_Ex2
 
 	private:
 		Ui::MainWindow *ui;
+
+		QCheckBox* m_chkBoxDefaultNick;
+		QLabel* m_lblDefaultNick;
+		QLineEdit* m_lnDefaultNick;
 	};
 }
 

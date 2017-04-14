@@ -96,6 +96,20 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionConnect"/>
+   <addaction name="separator"/>
+   <addaction name="actionAdd_server"/>
+   <addaction name="actionDelete_server"/>
+   <addaction name="actionRefresh_infos"/>
+   <addaction name="separator"/>
+   <addaction name="actionCopy_infos"/>
+   <addaction name="actionSet_properties"/>
+   <addaction name="separator"/>
+   <addaction name="actionSettings"/>
+   <addaction name="separator"/>
+   <addaction name="actionSAMP_Site"/>
+   <addaction name="actionAbout"/>
+   <addaction name="separator"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionImport_favorites_list">
