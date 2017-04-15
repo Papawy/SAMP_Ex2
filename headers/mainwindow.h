@@ -7,6 +7,12 @@
 #include <QCheckBox>
 #include <QLayout>
 
+#include <QString>
+#include <QtXml>
+#include <QList>
+#include <QMessageBox>
+#include <QListWidget>
+
 namespace Ui {
 class MainWindow;
 }
@@ -21,7 +27,7 @@ namespace SAMP_Ex2
 	public:
 		explicit MainWindow(QWidget *parent = 0);
 		~MainWindow();
-
+		void GetFavListServers();
 	private:
 		Ui::MainWindow *ui;
 
