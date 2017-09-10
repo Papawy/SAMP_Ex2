@@ -31,7 +31,55 @@ namespace SAMP_Ex2
 
 		//ui->tbvFavServersList
 	}
+	
+	void MainWindow::GetFavListServers()
+	{
+	    QFile file("favlist.xml");
+	    file.open(QIODevice::ReadOnly);
+	    QXmlStreamReader stream(&file);
 
+	    QString Ip;
+	    QString Name;
+	    QString Pass;
+
+	    try
+	    {
+		while(stream.readNext() && !stream.isEndDocument())
+		{
+		    if(stream.name() == "server")
+		    {
+			qDebug() << "server found";
+
+			while(stream.readNext() && !stream.isEndElement())
+			{
+			    if(stream.name() == "ip")
+			    {
+				Ip = stream.readElementText();
+				    
+				    /* Configure le avec ta liste */
+				//ui->listWidget->addItem("Ip: "+ Ip); 
+			    }
+			    if(stream.name() == "nickname")
+			    {
+				Name = stream.readElementText();
+			    }
+			    if(stream.name() == "password")
+			    {
+				Pass = stream.readElementText();
+			    }
+			}
+			qDebug() << "IP: " + Ip;
+		    }
+		}
+	    }
+	    catch(QException &ex)
+	    {
+		qDebug() << "Bug In try";
+	    }
+	    stream.clear();
+	    file.close();
+	}
+	
 	MainWindow::~MainWindow()
 	{
 		delete ui;
