@@ -11,11 +11,11 @@
 
 namespace SAMP_Ex2
 {
-	class ConfigFile
+	class CConfigFile
 	{
 	public:
-		ConfigFile();
-		~ConfigFile();
+		CConfigFile();
+		~CConfigFile();
 		static bool Load(QString filePath);
 		static QString GetConfValue(QString conftype, QString confname);
 

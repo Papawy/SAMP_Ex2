@@ -1,28 +1,28 @@
-#include "../headers/configfile.h"
+#include "../headers/cconfigfile.h"
 
 namespace SAMP_Ex2
 {
-	bool ConfigFile::m_loaded = false;
-	QString ConfigFile::m_filePath = "";
+	bool CConfigFile::m_loaded = false;
+	QString CConfigFile::m_filePath = "";
 
-	ConfigFile::ConfigFile()
+	CConfigFile::CConfigFile()
 	{
 
 	}
 
-	ConfigFile::~ConfigFile()
+	CConfigFile::~CConfigFile()
 	{
 
 	}
 
-	bool ConfigFile::Load(QString filePath)
+	bool CConfigFile::Load(QString filePath)
 	{
 		m_filePath = filePath;
 		m_loaded = true;
 		return true;
 	}
 
-	QString ConfigFile::GetConfValue(QString conftype, QString confname)
+	QString CConfigFile::GetConfValue(QString conftype, QString confname)
 	{
 		QString ret = "";
 		QFile file("config.xml");

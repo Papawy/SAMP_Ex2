@@ -10,7 +10,7 @@
 #include <QSettings>
 #include <QDir>
 
-#include "../headers/configfile.h"
+#include "../headers/cconfigfile.h"
 
 namespace SAMP_Ex2
 {
@@ -64,7 +64,7 @@ namespace SAMP_Ex2
 
 	bool GTAUtils::LaunchGTAInjected(QHostAddress ip, quint16 port, QString nickname, QString password, bool debug, QString sampdll)
 	{
-		QString gtaPath = ConfigFile::GetConfValue("user", "gtapath");
+		QString gtaPath = CConfigFile::GetConfValue("user", "gtapath");
 		QString gtaExeLocation = gtaPath + "\\gta_sa.exe";
 
 		QString gtaDir;

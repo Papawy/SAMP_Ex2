@@ -28,6 +28,8 @@ namespace SAMP_Ex2
 		ui->mainToolBar->addWidget(m_lnDefaultNick);
 		ui->mainToolBar->addWidget(toolBarSpacer);
 		ui->mainToolBar->addWidget(m_chkBoxDefaultNick);
+
+		//ui->tbvFavServersList
 	}
 
 	MainWindow::~MainWindow()
